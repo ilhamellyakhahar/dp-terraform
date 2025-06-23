@@ -1,0 +1,23 @@
+# Ignore terraform local directories and files
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+*.tfvars
+*.tfvars.json
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl
+
+# Ignore IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.bak
+*.tmp
+
+# Ignore OS files
+.DS_Store
+Thumbs.db

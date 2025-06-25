@@ -11,6 +11,4 @@ variable "security_rules" {
     destination_port_range     = string
     source_address_prefix      = string
     destination_address_prefix = string
-  }))
-  default = []
-}
+  }))}

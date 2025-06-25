@@ -4,7 +4,7 @@ data "terraform_remote_state" "bootstrap" {
     resource_group_name  = "rg-research-terraform"
     storage_account_name = "research9tfstate"
     container_name       = "tfstate"
-    key                  = "bootstrap.terraform.tfstate"
+    key                  = "dev.terraform.tfstate"
   }
 }
 
@@ -29,7 +29,7 @@ resource "azurerm_network_security_group" "nsg_vm" {
   }
 }
 
-resource "azurerm_subnet_network_security_group_association" "subnet_assoc" {
-  subnet_id                 = data.terraform_remote_state.bootstrap.outputs.subnet_id
+resource "azurerm_network_interface_security_group_association" "nic_assoc" {
+  network_interface_id      = data.terraform_remote_state.dev.outputs.nic_id
   network_security_group_id = azurerm_network_security_group.nsg_vm.id
 }

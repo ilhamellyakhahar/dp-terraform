@@ -10,8 +10,8 @@ data "terraform_remote_state" "bootstrap" {
 }
 
 resource "azurerm_network_security_group" "nsg_vm" {
-  name                = "nsg-vm-tf"
-  location            = var.location
+  name                = var.nsg_name
+  location            = data.terraform_remote_state.bootstrap.outputs.location
   resource_group_name = data.terraform_remote_state.bootstrap.outputs.resource_group_name
 
   security_rule {

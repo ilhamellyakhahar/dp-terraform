@@ -1,3 +1,5 @@
+variable "subscription_id" {}
+
 variable "location" {
   default = "Southeast Asia"
 }
@@ -19,6 +21,7 @@ variable "vnet_name" {
 }
 
 variable "address_space" {
+  type    = list(string)
   default = ["10.0.0.0/16"]
 }
 

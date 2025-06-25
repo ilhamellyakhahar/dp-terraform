@@ -1,0 +1,9 @@
+subscription_id      = "00000000-0000-0000-0000-000000000000" # Replace with your actual subscription ID
+location             = "Southeast Asia"
+resource_group_name  = "rg-research-terraform"
+storage_account_name = "research9tfstate"
+container_name       = "tfstate"
+vnet_name            = "vnet-tf"
+address_space        = ["10.0.0.0/16"]
+subnet_name          = "subnet-vmtf"
+subnet_prefix        = "10.0.1.0/24"

@@ -1,11 +1,44 @@
 # 🔧 Terraform Azure Infrastructure
 
-This project manages Azure infrastructure using Terraform with best practices such as:
+This project manages Azure infrastructure using Terraform, following best practices for modularity, remote state, and environment separation.
 
-* Remote state management in Azure Blob Storage
-* Modular and reusable infrastructure
-* Multi-environment separation (`bootstrap`, `dev`, `security`)
-* Separation of concerns using Terraform modules (`vm`, and more coming)
+---
+
+## 📝 What Was Done in This Research
+
+This repository demonstrates how to build a scalable and maintainable Azure infrastructure using Terraform. The main achievements and steps in this research include:
+
+- **Remote State Management:**  
+  All environments use Azure Blob Storage for remote state, ensuring safe collaboration and state locking.
+
+- **Environment Separation:**  
+  Infrastructure is split into multiple environments (`bootstrap`, `dev`, `security`) to separate concerns and allow independent deployments.
+
+- **Modular Design:**  
+  Core resources (VM, Disk, NSG) are implemented as reusable modules, making it easy to extend or replicate infrastructure.
+
+- **Resource Provisioning Workflow:**  
+  1. **Bootstrap:**  
+     Sets up the foundational resources: resource group, storage account, container, virtual network, and subnet.  
+     Outputs (like subnet ID, location, and resource group name) are shared via remote state for use in other environments.
+  2. **Dev:**  
+     Deploys a Linux VM using the `vm` module. The VM is provisioned in the subnet created by bootstrap, and uses remote state outputs for resource group, location, and subnet.  
+     Also demonstrates how to add a managed disk using a dedicated module, with parameters managed via `.tfvars`.
+  3. **Security:**  
+     Creates a Network Security Group (NSG) and associates it with the subnet. The NSG configuration (name, rules) is parameterized and can be managed via `.tfvars`.  
+     The NSG uses remote state outputs for location and resource group.
+
+- **Parameterization with tfvars:**  
+  All sensitive and environment-specific values (like subscription ID, admin credentials, disk size, NSG name) are managed via `.tfvars` files for each environment.
+
+- **Output Sharing:**  
+  Key outputs (resource group name, location, subnet ID, VM ID, disk ID, etc.) are exposed in each environment and module, enabling cross-environment references and automation.
+
+- **Best Practices:**  
+  - Sensitive data is kept out of code and managed via variables.
+  - State files are never committed to version control.
+  - Provider versions are locked for reproducibility.
+  - Clear deployment order is documented to avoid dependency issues.
 
 ---
 
@@ -15,10 +48,11 @@ This project manages Azure infrastructure using Terraform with best practices su
 terraform/
 ├── bootstrap/        # Initial setup (VNet, Subnet, RG, Storage Account)
 ├── environments/
-│   ├── dev/          # Deploys VM using reusable modules
+│   ├── dev/          # Deploys VM and disk using reusable modules
 │   └── security/     # Creates and associates NSG to Subnet
 ├── modules/
-│   └── vm/           # VM module used by environments/dev
+│   ├── vm/           # VM module used by environments/dev
+│   └── disk/         # Disk module used by environments/dev
 ```
 
 ---
@@ -74,7 +108,7 @@ terraform init
 terraform apply
 ```
 
-2. **Dev** (VM deployment using `modules/vm`)
+2. **Dev** (VM and disk deployment using modules)
 
 ```bash
 cd environments/dev
@@ -96,7 +130,8 @@ terraform apply
 
 Currently available:
 
-* [`modules/vm`](modules/vm): Defines a Linux VM with public IP, NIC, and disk. Can be extended.
+* [`modules/vm`](modules/vm): Defines a Linux VM with public IP, NIC, and disk.
+* [`modules/disk`](modules/disk): Defines a managed disk resource.
 
 ---
 
@@ -116,6 +151,7 @@ Each environment defines its own `outputs.tf`. Common outputs include:
 * Resource group names
 * Subnet IDs
 * VM IDs, NICs, NSG IDs
+* Disk IDs and names
 
 These outputs are accessed across environments using:
 
@@ -160,4 +196,3 @@ terraform init
 terraform plan
 terraform state list
 terraform state show <resource>
-```

@@ -1,5 +1,5 @@
 provider "azurerm" {
   features {}
 
-  subscription_id = "0000"
+  subscription_id = var.subscription_id
 }

@@ -11,9 +11,18 @@ data "terraform_remote_state" "bootstrap" {
 module "vm" {
   source              = "../../modules/vm"
   vm_name             = var.vm_name
-  resource_group_name = var.resource_group_name
-  location            = var.location
+  resource_group_name = data.terraform_remote_state.bootstrap.outputs.resource_group_name
+  location            = data.terraform_remote_state.bootstrap.outputs.location
   subnet_id           = data.terraform_remote_state.bootstrap.outputs.subnet_id
   admin_username      = var.admin_username
   admin_password      = var.admin_password
+}
+
+module "disk" {
+  source              = "../../modules/disk"
+  name                = var.disk_name
+  resource_group_name = data.terraform_remote_state.bootstrap.outputs.resource_group_name
+  location            = data.terraform_remote_state.bootstrap.outputs.location
+  size_gb             = var.disk_size_gb
+  sku                 = var.disk_sku
 }

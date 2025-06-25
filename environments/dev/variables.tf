@@ -16,7 +16,6 @@ variable "disk_sku" {
 variable "caching" {
   default = "ReadWrite"
 }
-
 variable "lun" {
   default = 0
 }

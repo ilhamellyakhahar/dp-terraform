@@ -1,5 +1,1 @@
-variable "subscription_id" {}
-
-variable "location" {
-  type = string
-}
+variable "nsg_name" {}

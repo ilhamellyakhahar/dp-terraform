@@ -7,3 +7,5 @@ admin_password  = "YourSecurePassword123!"
 disk_name       = "dev-disk"
 disk_size_gb    = 32
 disk_sku        = "Standard_LRS"
+caching         = "ReadWrite"
+lun             = 1

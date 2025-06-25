@@ -26,3 +26,10 @@ module "disk" {
   size_gb             = var.disk_size_gb
   sku                 = var.disk_sku
 }
+
+resource "azurerm_virtual_machine_data_disk_attachment" "attach_data_disk" {
+  managed_disk_id    = module.disk.disk_id
+  virtual_machine_id = module.vm.vm_id
+  lun                = var.lun
+  caching            = var.caching
+}

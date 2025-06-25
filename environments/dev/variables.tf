@@ -13,3 +13,10 @@ variable "disk_size_gb" {
 variable "disk_sku" {
   default = "Standard_LRS"
 }
+variable "caching" {
+  default = "ReadWrite"
+}
+
+variable "lun" {
+  default = 0
+}

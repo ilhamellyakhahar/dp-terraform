@@ -1,8 +1,8 @@
-variable "subscription_id" {
+variable "subs_id" {
   type = string
 }
 
-variable "resource_group_name" {
+variable "rg_name" {
   type = string
 }
 

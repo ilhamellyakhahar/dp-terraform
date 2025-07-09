@@ -51,3 +51,10 @@ output "data_disk_attachment_ids" {
     k => try(azurerm_virtual_machine_data_disk_attachment.attach_data_disk[k].id, null)
   }
 }
+
+output "vm_ssh_keys" {
+  value = {
+    for k, vm in var.vms :
+    k => try(vm.ssh_key, null)
+  }
+}

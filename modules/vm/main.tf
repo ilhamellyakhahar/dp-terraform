@@ -1,5 +1,5 @@
 resource "azurerm_public_ip" "public_ip" {
-  for_each            = { for vm in var.vms : vm.vm_name => vm if try(vm.enable_public_ip, true) }
+  for_each            = { for vm in var.vms : vm.vm_name => vm if try(vm.public_ip, true) }
   name                = "${each.value.vm_name}-public-ip"
   location            = each.value.location
   resource_group_name = each.value.rg_name
@@ -49,7 +49,12 @@ resource "azurerm_linux_virtual_machine" "vm" {
     }
   }
 
-  disable_password_authentication = false
+  admin_ssh_key {
+    username   = each.value.vm_user
+    public_key = try(each.value.ssh_key, null)
+  }
+
+  disable_password_authentication = try(each.value.ssh_key, null) != null ? true : false
 }
 
 resource "azurerm_managed_disk" "data_disk" {

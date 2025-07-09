@@ -31,6 +31,7 @@ variable "vms" {
       src_address                = string
       dest_address               = string
     })), [])
-    enable_public_ip        = optional(bool, true)
+    public_ip            = optional(bool, true)
+    ssh_key              = optional(string)
   }))
 }

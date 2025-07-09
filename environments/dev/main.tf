@@ -8,12 +8,22 @@ data "terraform_remote_state" "bootstrap" {
   }
 }
 
+module "networking" {
+  source              = "../../modules/networking"
+  project_name        = var.project_name
+  location            = data.terraform_remote_state.bootstrap.outputs.location
+  resource_group_name = data.terraform_remote_state.bootstrap.outputs.resource_group_name
+  address_space       = var.address_space
+  subnets             = var.subnets
+  enable_nat_gateway  = var.enable_nat_gateway
+}
+
 module "vm" {
   source              = "../../modules/vm"
   vm_name             = var.vm_name
   resource_group_name = data.terraform_remote_state.bootstrap.outputs.resource_group_name
   location            = data.terraform_remote_state.bootstrap.outputs.location    
-  subnet_id           = data.terraform_remote_state.bootstrap.outputs.subnet_id   
+  subnet_id           = module.networking.subnet_ids[var.subnet_name] # subnet_name must match one in subnets
   admin_username      = var.admin_username
   admin_password      = var.admin_password
 

@@ -1,5 +1,5 @@
 resource "azurerm_public_ip" "public_ip" {
-  for_each            = { for vm in var.vms : vm.vm_name => vm }
+  for_each            = { for vm in var.vms : vm.vm_name => vm if try(vm.enable_public_ip, true) }
   name                = "${each.value.vm_name}-public-ip"
   location            = each.value.location
   resource_group_name = each.value.rg_name
@@ -16,7 +16,7 @@ resource "azurerm_network_interface" "nic" {
     name                          = "internal"
     subnet_id                     = each.value.subnet
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.public_ip[each.key].id
+    public_ip_address_id          = try(azurerm_public_ip.public_ip[each.key].id, null)
   }
 }
 
@@ -53,7 +53,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 }
 
 resource "azurerm_managed_disk" "data_disk" {
-  for_each            = { for vm in var.vms : vm.vm_name => vm }
+  for_each = { for vm in var.vms : vm.vm_name => vm if try(vm.disk_name, null) != null && try(vm.disk_size, null) != null }
   name                = each.value.disk_name
   location            = each.value.location
   resource_group_name = each.value.rg_name
@@ -64,7 +64,7 @@ resource "azurerm_managed_disk" "data_disk" {
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "attach_data_disk" {
-  for_each            = { for vm in var.vms : vm.vm_name => vm }
+  for_each = { for vm in var.vms : vm.vm_name => vm if try(vm.disk_name, null) != null && try(vm.disk_size, null) != null }
   managed_disk_id     = azurerm_managed_disk.data_disk[each.key].id
   virtual_machine_id  = azurerm_linux_virtual_machine.vm[each.key].id
   lun                 = each.value.lun

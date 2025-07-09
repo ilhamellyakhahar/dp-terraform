@@ -52,7 +52,7 @@ variable "vms" {
     location     = string
     rg_name      = string
     nsg_name     = optional(string)
-    sec_rules = optional(list(object({
+    sec_rules    = optional(list(object({
       name         = string
       priority     = number
       direction    = string

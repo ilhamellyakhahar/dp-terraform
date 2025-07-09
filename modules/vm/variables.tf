@@ -6,11 +6,11 @@ variable "vms" {
     vm_pass                 = string
     vm_size                 = string
     subnet                  = string
-    disk_name               = string
-    disk_size               = number
+    disk_name               = optional(string)
+    disk_size               = optional(number)
     disk_sku                = string
     caching                 = string
-    lun                     = number
+    lun                     = optional(number)
     os_publisher            = string
     os_offer                = string
     os_sku                  = string
@@ -31,5 +31,6 @@ variable "vms" {
       src_address                = string
       dest_address               = string
     })), [])
+    enable_public_ip        = optional(bool, true)
   }))
 }

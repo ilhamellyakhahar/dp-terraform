@@ -25,3 +25,11 @@ output "nsg_ids" {
 output "nsg_names" {
   value = { for k, nsg in azurerm_network_security_group.nsg : k => nsg.name }
 }
+
+output "nic_ids" {
+  value = { for k, nic in azurerm_network_interface.nic : k => nic.id }
+}
+
+output "data_disk_attachment_ids" {
+  value = { for k, att in azurerm_virtual_machine_data_disk_attachment.attach_data_disk : k => att.id }
+}

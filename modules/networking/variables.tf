@@ -6,22 +6,22 @@ variable "location" {
   type        = string
 }
 
-variable "resource_group_name" {
+variable "rg_name" {
   type        = string
 }
 
-variable "address_space" {
+variable "space" {
   type        = list(string)
 }
 
 variable "subnets" {
   type = list(object({
     name            = string
-    address_prefix  = string
+    address         = string
   }))
 }
 
-variable "enable_nat_gateway" {
+variable "enable_ngw" {
   type        = bool
   default     = false
 }

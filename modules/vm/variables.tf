@@ -1,13 +1,13 @@
 variable "vms" {
   description = "List of VM definitions"
   type = list(object({
-    name                    = string
-    admin_username          = string
-    admin_password          = string
+    vm_name                 = string
+    vm_user                 = string
+    vm_pass                 = string
     vm_size                 = string
-    subnet_id               = string
+    subnet                  = string
     disk_name               = string
-    disk_size_gb            = number
+    disk_size               = number
     disk_sku                = string
     caching                 = string
     lun                     = number
@@ -15,21 +15,21 @@ variable "vms" {
     os_offer                = string
     os_sku                  = string
     os_version              = string
-    disk_encryption_set_id  = optional(string)
-    use_ephemeral_os_disk   = optional(bool, false)
+    encryption              = optional(string)
+    ephemeral               = optional(bool, false)
     location                = string
-    resource_group_name     = string
+    rg_name                 = string
     nsg_name                = optional(string)
-    security_rules          = optional(list(object({
+    sec_rules               = optional(list(object({
       name                       = string
       priority                   = number
       direction                  = string
       access                     = string
       protocol                   = string
-      source_port_range          = string
-      destination_port_range     = string
-      source_address_prefix      = string
-      destination_address_prefix = string
+      src_port                   = string
+      dest_port                  = string
+      src_address                = string
+      dest_address               = string
     })), [])
   }))
 }

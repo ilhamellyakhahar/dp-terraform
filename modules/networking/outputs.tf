@@ -15,5 +15,9 @@ output "subnet_names" {
 }
 
 output "nat_gateway_id" {
-  value = var.enable_nat_gateway ? azurerm_nat_gateway.nat[0].id : null
+  value = var.enable_ngw && length(azurerm_nat_gateway.nat) > 0 ? azurerm_nat_gateway.nat[0].id : null
+}
+
+output "nat_public_ip_id" {
+  value = var.enable_ngw && length(azurerm_public_ip.nat) > 0 ? azurerm_public_ip.nat[0].id : null
 }

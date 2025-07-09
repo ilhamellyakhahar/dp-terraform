@@ -1,7 +1,7 @@
-subscription_id      = "00000000-0000-0000-0000-000000000000"
+subs_id              = "00000000-0000-0000-0000-000000000000"
 project_name         = "dev"
 location             = "eastus"
-resource_group_name  = "dev-rg"
+rg_name              = "dev-rg"
 
 space = ["10.0.0.0/16"]
 

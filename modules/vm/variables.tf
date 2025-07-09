@@ -19,5 +19,17 @@ variable "vms" {
     use_ephemeral_os_disk   = optional(bool, false)
     location                = string
     resource_group_name     = string
+    nsg_name                = optional(string)
+    security_rules          = optional(list(object({
+      name                       = string
+      priority                   = number
+      direction                  = string
+      access                     = string
+      protocol                   = string
+      source_port_range          = string
+      destination_port_range     = string
+      source_address_prefix      = string
+      destination_address_prefix = string
+    })), [])
   }))
 }

@@ -17,3 +17,11 @@ output "disk_ids" {
 output "disk_names" {
   value = { for k, d in azurerm_managed_disk.data_disk : k => d.name }
 }
+
+output "nsg_ids" {
+  value = { for k, nsg in azurerm_network_security_group.nsg : k => nsg.id }
+}
+
+output "nsg_names" {
+  value = { for k, nsg in azurerm_network_security_group.nsg : k => nsg.name }
+}

@@ -40,6 +40,8 @@ module "vm" {
       use_ephemeral_os_disk   = try(vm.use_ephemeral_os_disk, false)
       location                = data.terraform_remote_state.bootstrap.outputs.location
       resource_group_name     = data.terraform_remote_state.bootstrap.outputs.resource_group_name
+      nsg_name                = try(vm.nsg_name, null)
+      security_rules          = try(vm.security_rules, [])
     }
   ]
 }

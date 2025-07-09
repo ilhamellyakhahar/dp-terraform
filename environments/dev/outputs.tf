@@ -17,3 +17,11 @@ output "disk_ids" {
 output "disk_names" {
   value = module.vm.disk_names
 }
+
+output "nsg_ids" {
+  value = module.vm.nsg_ids
+}
+
+output "nsg_names" {
+  value = module.vm.nsg_names
+}

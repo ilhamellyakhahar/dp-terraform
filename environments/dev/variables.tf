@@ -80,5 +80,17 @@ variable "vms" {
     os_version              = string
     disk_encryption_set_id  = optional(string)
     use_ephemeral_os_disk   = optional(bool, false)
+    nsg_name                = optional(string)
+    security_rules = optional(list(object({
+      name                       = string
+      priority                   = number
+      direction                  = string
+      access                     = string
+      protocol                   = string
+      source_port_range          = string
+      destination_port_range     = string
+      source_address_prefix      = string
+      destination_address_prefix = string
+    })), [])
   }))
 }

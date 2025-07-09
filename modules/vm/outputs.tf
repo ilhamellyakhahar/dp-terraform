@@ -9,3 +9,11 @@ output "vm_private_ip" {
 output "vm_public_ip" {
   value = azurerm_public_ip.public_ip.ip_address
 }
+
+output "disk_id" {
+  value = azurerm_managed_disk.data_disk.id
+}
+
+output "disk_name" {
+  value = azurerm_managed_disk.data_disk.name
+}

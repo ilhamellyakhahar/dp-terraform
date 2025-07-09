@@ -44,3 +44,19 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   disable_password_authentication = false
 }
+
+resource "azurerm_managed_disk" "data_disk" {
+  name                 = var.disk_name
+  location             = var.location
+  resource_group_name  = var.resource_group_name
+  storage_account_type = var.disk_sku
+  create_option        = "Empty"
+  disk_size_gb         = var.disk_size_gb
+}
+
+resource "azurerm_virtual_machine_data_disk_attachment" "attach_data_disk" {
+  managed_disk_id    = azurerm_managed_disk.data_disk.id
+  virtual_machine_id = azurerm_linux_virtual_machine.vm.id
+  lun                = var.lun
+  caching            = var.caching
+}

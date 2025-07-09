@@ -25,3 +25,23 @@ variable "admin_password" {
 variable "vm_size" {
   type = string
 }
+
+variable "disk_name" {
+  type = string
+}
+
+variable "disk_size_gb" {
+  type = number
+}
+
+variable "disk_sku" {
+  type = string
+}
+
+variable "caching" {
+  type = string
+}
+
+variable "lun" {
+  type = number
+}

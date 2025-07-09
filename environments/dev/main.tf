@@ -11,8 +11,8 @@ data "terraform_remote_state" "bootstrap" {
 module "networking" {
   source              = "../../modules/networking"
   project_name        = var.project_name
-  location            = data.terraform_remote_state.bootstrap.outputs.location
-  resource_group_name = data.terraform_remote_state.bootstrap.outputs.resource_group_name
+  location            = var.location
+  resource_group_name = var.resource_group_name
   address_space       = var.address_space
   subnets             = var.subnets
   enable_nat_gateway  = var.enable_nat_gateway

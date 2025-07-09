@@ -1,9 +1,8 @@
 Modules capability
 
 VM:
-- OS setup
-- Multiple VMs and Disk
-- Disk encryption
+- Multiple VMs
+- Data Disk
 - NSG configuration
 
 Networking:

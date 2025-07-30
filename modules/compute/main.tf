@@ -23,7 +23,7 @@ resource "azurerm_network_interface" "nic" {
 resource "azurerm_linux_virtual_machine" "vm" {
   for_each = { for vm in var.vms : vm.vm_name => vm }
   name                = each.value.vm_name
-  resource_group_name = each.value.rg_name
+  resource_group_name  = each.value.rg_name
   location            = each.value.location
   size                = each.value.vm_size
   admin_username      = each.value.vm_user

@@ -1,11 +1,11 @@
 Modules capability
 
-VM:
+Compute:
 - Multiple VMs
 - Data Disk (Optional)
 - NSG configuration
 - Credentials (Password or SSH key)
 
-Networking:
+Network:
 - Multiple Subnets
 - Nat Gateaway

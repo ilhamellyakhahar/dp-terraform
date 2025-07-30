@@ -3,19 +3,23 @@ variable "subs_id" {
 }
 
 variable "rg_name" {
-  type = string
+  type    = string
+  default = "dev-rg"
 }
 
 variable "location" {
-  type = string
+  type    = string
+  default = "eastus2"
 }
 
 variable "project_name" {
-  type = string
+  type    = string
+  default = "dev-project"
 }
 
 variable "space" {
-  type = list(string)
+  type    = list(string)
+  default = ["10.1.0.0/16"]
 }
 
 variable "subnets" {
@@ -23,11 +27,15 @@ variable "subnets" {
     name    = string
     address = string
   }))
+  default = [
+    { name = "subnet1", address = "10.1.1.0/24" },
+    { name = "subnet2", address = "10.1.2.0/24" }
+  ]
 }
 
 variable "enable_ngw" {
   type    = bool
-  default = false
+  default = true
 }
 
 variable "vms" {
@@ -63,5 +71,28 @@ variable "vms" {
       src_address  = string
       dest_address = string
     })), [])
+    public_ip    = optional(bool, true)
+    ssh_key      = optional(string)
   }))
+  default = [
+    {
+      vm_name    = "dev-vm1"
+      vm_user    = "azureuser"
+      vm_pass    = "P@ssw0rd!"
+      vm_size    = "Standard_B2s"
+      subnet     = "subnet1"
+      disk_name  = "dev-disk1"
+      disk_size  = 30
+      disk_sku   = "Standard_LRS"
+      caching    = "ReadWrite"
+      lun        = 0
+      os_publisher = "Canonical"
+      os_offer   = "UbuntuServer"
+      os_sku     = "18.04-LTS"
+      os_version = "latest"
+      location   = "eastus2"
+      rg_name    = "dev-rg"
+      public_ip  = true
+    }
+  ]
 }

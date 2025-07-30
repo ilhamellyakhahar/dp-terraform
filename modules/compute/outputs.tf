@@ -8,35 +8,35 @@ output "vm_private_ips" {
 
 output "vm_public_ips" {
   value = {
-    for k, vm in azurerm_linux_virtual_machine.vm :
-    k => try(azurerm_public_ip.public_ip[k].ip_address, null)
+    for k in keys(var.vms) :
+    k => contains(keys(azurerm_public_ip.public_ip), k) ? azurerm_public_ip.public_ip[k].ip_address : null
   }
 }
 
 output "disk_ids" {
   value = {
-    for k, vm in azurerm_linux_virtual_machine.vm :
+    for k in keys(var.vms) :
     k => try(azurerm_managed_disk.data_disk[k].id, null)
   }
 }
 
 output "disk_names" {
   value = {
-    for k, vm in azurerm_linux_virtual_machine.vm :
+    for k in keys(var.vms) :
     k => try(azurerm_managed_disk.data_disk[k].name, null)
   }
 }
 
 output "nsg_ids" {
   value = {
-    for k, vm in azurerm_linux_virtual_machine.vm :
+    for k in keys(var.vms) :
     k => try(azurerm_network_security_group.nsg[k].id, null)
   }
 }
 
 output "nsg_names" {
   value = {
-    for k, vm in azurerm_linux_virtual_machine.vm :
+    for k in keys(var.vms) :
     k => try(azurerm_network_security_group.nsg[k].name, null)
   }
 }
@@ -47,7 +47,7 @@ output "nic_ids" {
 
 output "data_disk_attachment_ids" {
   value = {
-    for k, vm in azurerm_linux_virtual_machine.vm :
+    for k in keys(var.vms) :
     k => try(azurerm_virtual_machine_data_disk_attachment.attach_data_disk[k].id, null)
   }
 }

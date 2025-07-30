@@ -1,5 +1,5 @@
 resource "azurerm_public_ip" "public_ip" {
-  for_each            = { for vm in var.vms : vm.vm_name => vm if try(vm.public_ip, true) }
+  for_each = { for vm in var.vms : vm.vm_name => vm if try(vm.public_ip, true) }
   name                = "${each.value.vm_name}-public-ip"
   location            = each.value.location
   resource_group_name = each.value.rg_name
@@ -7,7 +7,7 @@ resource "azurerm_public_ip" "public_ip" {
 }
 
 resource "azurerm_network_interface" "nic" {
-  for_each            = { for vm in var.vms : vm.vm_name => vm }
+  for_each = { for vm in var.vms : vm.vm_name => vm }
   name                = "${each.value.vm_name}-nic"
   location            = each.value.location
   resource_group_name = each.value.rg_name
@@ -21,13 +21,14 @@ resource "azurerm_network_interface" "nic" {
 }
 
 resource "azurerm_linux_virtual_machine" "vm" {
-  for_each            = { for vm in var.vms : vm.vm_name => vm }
+  for_each = { for vm in var.vms : vm.vm_name => vm }
   name                = each.value.vm_name
   resource_group_name = each.value.rg_name
   location            = each.value.location
   size                = each.value.vm_size
   admin_username      = each.value.vm_user
-  admin_password      = each.value.vm_pass
+
+  admin_password = try(each.value.ssh_key, null) == null ? each.value.vm_pass : null
 
   network_interface_ids = [
     azurerm_network_interface.nic[each.key].id,
@@ -44,14 +45,21 @@ resource "azurerm_linux_virtual_machine" "vm" {
     caching              = each.value.caching
     storage_account_type = each.value.disk_sku
     disk_encryption_set_id = try(each.value.encryption, null)
-    diff_disk_settings {
-      option = each.value.ephemeral ? "Local" : null
+
+    dynamic "diff_disk_settings" {
+      for_each = try(each.value.ephemeral, false) ? [1] : []
+      content {
+        option = "Local"
+      }
     }
   }
 
-  admin_ssh_key {
-    username   = each.value.vm_user
-    public_key = try(each.value.ssh_key, null)
+  dynamic "admin_ssh_key" {
+    for_each = try(each.value.ssh_key, null) != null ? [1] : []
+    content {
+      username   = each.value.vm_user
+      public_key = each.value.ssh_key
+    }
   }
 
   disable_password_authentication = try(each.value.ssh_key, null) != null ? true : false
@@ -77,7 +85,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "attach_data_disk" {
 }
 
 resource "azurerm_network_security_group" "nsg" {
-  for_each            = { for vm in var.vms : vm.vm_name => vm if try(vm.nsg_name, null) != null }
+  for_each = { for vm in var.vms : vm.vm_name => vm if try(vm.nsg_name, null) != null }
   name                = each.value.nsg_name
   location            = each.value.location
   resource_group_name = each.value.rg_name

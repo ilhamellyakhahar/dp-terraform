@@ -28,7 +28,7 @@ Modules capability
 $ terraform apply -var-file=net.tfvars
 ```
 
-Contoh output:
+Output:
 
 ```
 Acquiring state lock. This may take a few moments...
@@ -110,5 +110,10 @@ vnet_name = "research-ilham-vnet"
 
 ---
 
-![Vnet Overview](images/vnet.png)
+Verification (from portal):
+
+**Virtual Network Overview**  
+![Vnet](images/vnet.png)
+
+**Subnet Overview**  
 ![Subnet](images/subnet.png)

@@ -38,7 +38,6 @@ variable "subnets" {
   ]
 }
 
-
 variable "enable_ngw" {
   description = "Enable NAT Gateway"
   type        = bool

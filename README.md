@@ -120,7 +120,7 @@ Verification (from portal):
 
 ![Subnet](images/subnet.png)
 
-### 1. Computing Environment
+### 2. Computing Environment
 
 ```sh
 $ terraform apply -var-file=com.tfvars

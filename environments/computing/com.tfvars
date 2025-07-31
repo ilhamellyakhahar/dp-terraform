@@ -5,7 +5,7 @@ location  = "southeastasia"
 public_ip = true
 disk_size = 32
 rg_name   = "rg-ilhamellya"
-subs_id   = "bb4d4765-9d70-43bd-ba1c-4dd332b0123a"
+subs_id   = "subs"
 sec_rules = [
   {
     name         = "Allow-SSH"

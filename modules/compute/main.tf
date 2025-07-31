@@ -3,7 +3,7 @@ resource "azurerm_public_ip" "public_ip" {
   name                = "${each.value.vm_name}-public-ip"
   location            = each.value.location
   resource_group_name = each.value.rg_name
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"
 }
 
 resource "azurerm_network_interface" "nic" {
